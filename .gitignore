@@ -39,3 +39,4 @@ gradlew
 gradlew.bat
 .gitattributes
 gradle
+src/main/resources/version.properties
