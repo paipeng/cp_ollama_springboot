@@ -20,7 +20,7 @@ public class ApplicationConfig {
     public Executor asyncExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setCorePoolSize(300);
-        threadPoolTaskExecutor.setMaxPoolSize(3);
+        threadPoolTaskExecutor.setMaxPoolSize(350);
         threadPoolTaskExecutor.setQueueCapacity(100);
         threadPoolTaskExecutor.setThreadNamePrefix("AsyncThread-Ollama-");
         threadPoolTaskExecutor.initialize();

@@ -8,3 +8,4 @@ spring:
     baseName: localization
     domain: http://localhost:4200
     websocketUrl: /web/rc/
+    defaultLocale: en

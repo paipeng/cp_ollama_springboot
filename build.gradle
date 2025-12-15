@@ -24,24 +24,36 @@ repositories {
 dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.42'
 	implementation 'org.springframework.boot:spring-boot-starter'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '4.0.0-M2'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webservices', version: '4.0.0-M2'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '4.0.0'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webservices', version: '4.0.0-M2'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '4.0.0-M2'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '4.0.0-M2'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '4.0.0-M2'
 	//implementation('org.springframework.boot:sprint-boot-starter-security')
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '4.0.0-M2'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '4.0.0-M2'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '4.0.0-M2'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '4.0.0-M2'
+
+	// https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-autoconfigure-model-ollama
+	//implementation group: 'org.springframework.ai', name: 'spring-ai-autoconfigure-model-ollama', version: '2.0.0-M1'
+	// https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-spring-boot-autoconfigure
+	//implementation group: 'org.springframework.ai', name: 'spring-ai-spring-boot-autoconfigure', version: '1.0.0-M6'
+	// https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-client-chat
+	//implementation group: 'org.springframework.ai', name: 'spring-ai-client-chat', version: '2.0.0-M1'
+
 	//implementation('org.springframework.boot:sprint-boot-starter-data-jpa')
 	//implementation('org.springframework.boot:sprint-boot-starter-aop')
 	//implementation('org.springframework.boot:sprint-boot-starter-validation')
 
 	// https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-ollama-spring-boot-starter
-	implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6'
+	//implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6'
 
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 	implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.42'
+	// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.41'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

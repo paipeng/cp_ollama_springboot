@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 @SpringBootApplication
 @EnableAsync
 public class OllamaApplication {
