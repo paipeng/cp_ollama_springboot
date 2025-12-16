@@ -9,6 +9,7 @@ spring:
     domain: http://localhost:4200
     websocketUrl: /web/rc/
     defaultLocale: en
+    uploadDir: uploads
   ai:
     ollama:
       base-url: http://localhost:11434

@@ -20,11 +20,11 @@ public class OllamaApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext applicationContext) {
 		return args -> {
-			System.out.println("SprintBoot started !!!!");
 			String[] beanNames = applicationContext.getBeanDefinitionNames();
 			for (String beanName : beanNames) {
 				System.out.println(beanName);
 			}
+			System.out.println("\n\nSprintBoot started !!!!--------------------------------");
 		};
 	}
 }

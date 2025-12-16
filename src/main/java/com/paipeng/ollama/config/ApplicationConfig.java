@@ -43,5 +43,8 @@ public class ApplicationConfig {
     @Value("${spring.application.websocketUrl}")
     private String websocketUrl;
 
+    @Value("${spring.application.uploadDir}")
+    private String uploadDir;
+
 
 }
