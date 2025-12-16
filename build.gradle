@@ -65,7 +65,6 @@ dependencies {
 
 
 
-
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 	implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.42'
 	// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations

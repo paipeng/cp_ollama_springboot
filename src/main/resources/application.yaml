@@ -16,8 +16,10 @@ spring:
         pull-model-strategy: NEVER
         timeout: 60s
         max-retries: 1
-      #chat:
-      #  additional-models:
+      chat:
+        options:
+          model: 7shi/llama-translate:8b-q4_K_M
+        #  additional-models:
       #    - llama3.2
       #    - qwen2.5
     #chat:
