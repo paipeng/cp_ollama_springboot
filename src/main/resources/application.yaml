@@ -16,10 +16,10 @@ spring:
         pull-model-strategy: always
         timeout: 60s
         max-retries: 1
-      chat:
-        additional-models:
-          - llama3.2
-          - qwen2.5
+      #chat:
+      #  additional-models:
+      #    - llama3.2
+      #    - qwen2.5
     #chat:
       #memory:
         #repository:
