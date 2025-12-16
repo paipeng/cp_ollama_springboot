@@ -39,7 +39,7 @@ public class VttUtil {
 
         Vtt vtt = null;
         for (String line : lines) {
-            if (line.isBlank()) {
+            if (line.isBlank() || line.equals("WEBVTT") || line.startsWith("Kind:") || line.startsWith("Language:")) {
                 continue;
             }
             if (isTimestamp(line)) {
@@ -58,6 +58,11 @@ public class VttUtil {
             }
         }
         return vtts;
+    }
+
+    public static List<Vtt> readVttFile(Resource resource) {
+        List<String> lines = readResource(resource);
+        return parseVtt(lines);
     }
 
     public static boolean isTimestamp(String text) {
