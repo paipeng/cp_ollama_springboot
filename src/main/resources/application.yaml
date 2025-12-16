@@ -13,7 +13,7 @@ spring:
     ollama:
       base-url: http://localhost:11434
       init:
-        pull-model-strategy: always
+        pull-model-strategy: NEVER
         timeout: 60s
         max-retries: 1
       #chat:
