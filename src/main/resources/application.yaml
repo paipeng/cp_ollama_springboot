@@ -9,3 +9,31 @@ spring:
     domain: http://localhost:4200
     websocketUrl: /web/rc/
     defaultLocale: en
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      init:
+        pull-model-strategy: always
+        timeout: 60s
+        max-retries: 1
+      chat:
+        additional-models:
+          - llama3.2
+          - qwen2.5
+    #chat:
+      #memory:
+        #repository:
+        #  jdbc:
+            # https://docs.spring.io/spring-ai/reference/1.0/api/chat-memory.html#_schema_initialization
+        #    initialize-schema: always
+        #    schema: classpath:sql/schema-h2.sql
+  #datasource:
+  #  url: jdbc:h2:mem:~/demo-chatbot
+  #  driverClassName: org.h2.Driver
+  #  username: sa
+  #  password: password
+  #  generateUniqueName: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
