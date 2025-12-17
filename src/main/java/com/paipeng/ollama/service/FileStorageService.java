@@ -1,6 +1,7 @@
 package com.paipeng.ollama.service;
 
 import com.paipeng.ollama.config.ApplicationConfig;
+import com.paipeng.ollama.util.FileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,5 +34,12 @@ public class FileStorageService {
 
     public Path getFileStoragePath() {
         return fileStoragePath;
+    }
+
+    public Path writeVttFile(String fileName, String data) {
+        Path fileStoragePath = Paths.get(applicationConfig.getTranslateDir()).toAbsolutePath().normalize();
+        Path savedFilePath = FileUtil.writeFile(fileStoragePath, data);
+        assert savedFilePath != null;
+        return savedFilePath;
     }
 }

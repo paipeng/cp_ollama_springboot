@@ -46,5 +46,8 @@ public class ApplicationConfig {
     @Value("${spring.application.uploadDir}")
     private String uploadDir;
 
+    @Value("${spring.application.translateDir}")
+    private String translateDir;
+
 
 }

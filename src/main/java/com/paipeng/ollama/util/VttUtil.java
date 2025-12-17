@@ -39,9 +39,11 @@ public class VttUtil {
 
         Vtt vtt = null;
         for (String line : lines) {
+            line = line.trim();
             if (line.isBlank() || line.equals("WEBVTT") || line.startsWith("Kind:") || line.startsWith("Language:")) {
                 continue;
             }
+            System.out.println("line: " + line + " len: (" + line.length() + ")");
             if (isTimestamp(line)) {
                 if (vtt == null) {
                     vtt = new Vtt(line);
@@ -72,8 +74,8 @@ public class VttUtil {
         // \d{2}   : two digits
         // :       : literal colon
         // \.      : literal dot
-        String regex = ".*\\d{2}:\\d{2}:\\d{2}\\.\\d{3}.*";
-
+        //String regex = ".*\\d{2}:\\d{2}:\\d{2}\\.\\d{3}.*";
+        String regex = "(\\d{2}:\\d{2}:\\d{2}\\.\\d{3}) --> (\\d{2}:\\d{2}:\\d{2}\\.\\d{3}.*)";
         if (text.matches(regex)) {
             System.out.println("The line contains a valid timestamp.");
             return true;
@@ -88,5 +90,16 @@ public class VttUtil {
             text.append(vtt.getText() + " ");
         }
         return text.toString();
+    }
+
+    public static String convertVttToString(List<Vtt> vtts) {
+        StringBuilder text = new StringBuilder();
+        text.append("WEBVTT\n\n");
+        for (Vtt vtt : vtts) {
+            text.append(vtt.getTimestamp() + "\n");
+            text.append(vtt.getText() + "\n");
+        }
+        return text.toString();
+
     }
 }

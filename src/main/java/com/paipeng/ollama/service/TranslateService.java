@@ -24,6 +24,7 @@ public class TranslateService {
     private OllamaChatModel chatModel;
 
     public ChatResponse translate(TranslateRequest translateRequest) {
+        logger.info("translate: " + translateRequest.getText());
         SystemMessage systemMessage = new SystemMessage(translateRequest.getPrompt());
         UserMessage userMessage = new UserMessage(translateRequest.getText());
 

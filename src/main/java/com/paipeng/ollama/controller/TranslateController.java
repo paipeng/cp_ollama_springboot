@@ -1,5 +1,6 @@
 package com.paipeng.ollama.controller;
 
+import com.paipeng.ollama.config.ApplicationConfig;
 import com.paipeng.ollama.model.TranslateRequest;
 import com.paipeng.ollama.model.Vtt;
 import com.paipeng.ollama.service.FileStorageService;
@@ -136,6 +137,62 @@ public class TranslateController {
             return ResponseEntity.ok()
                     //.contentType(MediaType.APPLICATION_JSON)
                     .body(chatResponse);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @PostMapping("/vtt")
+    public ResponseEntity<Resource> uploadVttFile(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+            Path targetLocation = fileStorageService.getFileStoragePath().resolve(fileName);
+
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            Path filePath = fileStorageService.getFileStoragePath().resolve(fileName).normalize();
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            TranslateRequest translateRequest = new TranslateRequest();
+            translateRequest.setPrompt("Translate German to Chinese");
+
+            List<Vtt> vtts = VttUtil.readVttFile(resource);
+            for (Vtt vtt : vtts) {
+                logger.info("vtt: " + vtt.getTimestamp() + " -> " + vtt.getText());
+                if (vtt.getText() != null) {
+                    translateRequest.setText(vtt.getText());
+                    ChatResponse chatResponse = translateService.translate(translateRequest);
+                    vtt.setText(chatResponse.getResult().getOutput().getText());
+                }
+            }
+
+            String vttContent = VttUtil.convertVttToString(vtts);
+
+            // save vtts to file
+            Path translatedFilePath = fileStorageService.writeVttFile(filePath.toString(), vttContent);
+            resource = new UrlResource(translatedFilePath.toUri());
+
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

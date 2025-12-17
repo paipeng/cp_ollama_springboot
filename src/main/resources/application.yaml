@@ -10,6 +10,7 @@ spring:
     websocketUrl: /web/rc/
     defaultLocale: en
     uploadDir: uploads
+    translateDir: uploads/translated
   ai:
     ollama:
       base-url: http://localhost:11434
