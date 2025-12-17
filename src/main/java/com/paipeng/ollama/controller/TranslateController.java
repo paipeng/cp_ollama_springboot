@@ -1,7 +1,10 @@
 package com.paipeng.ollama.controller;
 
 import com.paipeng.ollama.model.TranslateRequest;
+import com.paipeng.ollama.model.Vtt;
 import com.paipeng.ollama.service.FileStorageService;
+import com.paipeng.ollama.service.TranslateService;
+import com.paipeng.ollama.util.VttUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.messages.SystemMessage;
@@ -35,39 +38,20 @@ import java.util.Objects;
 @RestController
 @RequestMapping(value = "/translate")
 public class TranslateController {
-    private final Logger logger = LoggerFactory.getLogger(VersionController.class);
-    @Autowired
-    private OllamaChatModel chatModel;
+    private final Logger logger = LoggerFactory.getLogger(TranslateController.class);
 
     @Autowired
     private FileStorageService fileStorageService;
+
+    @Autowired
+    private TranslateService translateService;
 
 
     @PostMapping(value = "/cn", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ChatResponse generate(@RequestBody TranslateRequest translateRequest) {
         logger.info("generate: " + translateRequest.getText());
 
-        SystemMessage systemMessage = new SystemMessage(translateRequest.getPrompt());
-        UserMessage userMessage = new UserMessage(translateRequest.getText());
-
-        Prompt prompt = new Prompt(List.of(userMessage, systemMessage), OllamaChatOptions.builder()
-                .temperature(0.4)
-                .build());
-
-        String template = """
-            ### Instruction: {instruction}
-            ### Input: {input_text}
-            ### Response:
-            """;
-
-        // Create a PromptTemplate instance
-        PromptTemplate promptTemplate = new PromptTemplate(template);
-
-
-        Prompt prompt2 = promptTemplate.create(Map.of(
-                "instruction", "Translate German to Chinese.",
-                "input_text", translateRequest.getText()));
-        return this.chatModel.call(prompt2);
+        return translateService.translate(translateRequest);
     }
 
     @PostMapping("/upload")
@@ -121,4 +105,39 @@ public class TranslateController {
         }
     }
 
+
+    @PostMapping("/upload3")
+    public ResponseEntity<ChatResponse> uploadFile3(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+            Path targetLocation = fileStorageService.getFileStoragePath().resolve(fileName);
+
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            Path filePath = fileStorageService.getFileStoragePath().resolve(fileName).normalize();
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            List<Vtt> vtts = VttUtil.readVttFile(resource);
+            String fullText = VttUtil.getFullText(vtts);
+
+            TranslateRequest translateRequest = new TranslateRequest();
+            translateRequest.setPrompt("Translate German to Chinese");
+            translateRequest.setText(fullText);
+
+
+            ChatResponse chatResponse = translateService.translate(translateRequest);
+
+            return ResponseEntity.ok()
+                    //.contentType(MediaType.APPLICATION_JSON)
+                    .body(chatResponse);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
