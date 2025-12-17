@@ -47,5 +47,8 @@ public class VttUtilTest {
         for (Vtt vtt : vtts) {
             System.out.println(vtt.getTimestamp() + " -> " + vtt.getText());
         }
+
+        String fullText = VttUtil.getFullText(vtts);
+        System.out.println(fullText);
     }
 }

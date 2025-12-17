@@ -81,4 +81,12 @@ public class VttUtil {
             return false;
         }
     }
+
+    public static String getFullText(List<Vtt> vtts) {
+        StringBuilder text = new StringBuilder();
+        for (Vtt vtt : vtts) {
+            text.append(vtt.getText() + " ");
+        }
+        return text.toString();
+    }
 }
